@@ -50,6 +50,15 @@ header h1{
   margin:0;
   font-weight:700;
 }
+.burger-menu {
+  display: none;
+  cursor: pointer;
+  font-size: 24px;
+  color: var(--dark);
+}
+nav {
+  display: flex;
+}
 nav a{
   margin-left:30px;
   text-decoration:none;
@@ -335,7 +344,31 @@ footer a:hover{color:var(--accent);}
 @media (max-width:768px){
   header{padding:15px 20px;}
   header h1{font-size:24px;}
-  nav a{margin-left:15px;}
+  .burger-menu { display: block; }
+  nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(10px);
+    flex-direction: column;
+    padding: 20px;
+    box-shadow: var(--shadow);
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+  nav.open {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+  nav a {
+    margin: 10px 0;
+    text-align: center;
+  }
   .hero h2{font-size:40px;}
   .hero p{font-size:18px;}
   section{padding:80px 20px;}
@@ -348,7 +381,10 @@ footer a:hover{color:var(--accent);}
 
 <header>
   <h1>Khatu Waada</h1>
-  <nav>
+  <div class="burger-menu" id="burger-menu">
+    <i class="fas fa-bars"></i>
+  </div>
+  <nav id="nav">
     <a href="#about">About</a>
     <a href="#features">Facilities</a>
     <a href="#gallery">Gallery</a>
@@ -453,27 +489,7 @@ footer a:hover{color:var(--accent);}
     </div>
     <div class="gallery-item">
       <img src="https://lh3.googleusercontent.com/gps-cs-s/AG0ilSzThcYP66LqTpjxmi91A6NA1tnkJOzPQawdQEiuIYJjULavUD0dO8aBX9du9NBJxaAbsKv2W95oNUiYJNcIb0T5nOoqZn_O2pCVma05qrnAOVZ02ieS7ioKZUWDpuCF360RYn21_w=w800-h600-k-no" alt="Swimming Pool">
-      <div class="gallery-overlay">
-        <p>Relaxing by the outdoor swimming pool.</p>
-      </div>
-    </div>
-    <div class="gallery-item">
-      <img src="https://lh3.googleusercontent.com/gps-cs-s/AG0ilSxF-9ErrYk4f4-a78xySZKZvZYTO5m6h52sDRZuQaxLz-Td9GE6g8vEOi5vwN3ekPyrQZTkLqpWCP32nwBzd5I-vksaeNFsc-Ej-Dbbu3cbbw-CVx90wYd5DPfss6felqalelfE=w800-h600-k-no" alt="Room Interior">
-      <div class="gallery-overlay">
-        <p>Luxurious room interiors with heritage touches.</p>
-      </div>
-    </div>
-    <div class="gallery-item">
-      <img src="https://lh3.googleusercontent.com/p/AF1QipMpsbvGl4JoxuOFEe6Rcd83O1T9XCQw3HsZezbH=w800-h600-k-no" alt="Dining Area">
-      <div class="gallery-overlay">
-        <p>Authentic Konkan dining experience.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<section id="testimonials" class="testimonials">
+      <div class="gallery<section id="testimonials" class="testimonials">
   <h3 class="section-title">Guest Testimonials</h3>
   <p class="section-sub">What our guests say about their experience.</p>
   <div class="features">
@@ -535,6 +551,13 @@ window.addEventListener('scroll', () => {
   } else {
     header.classList.remove('scrolled');
   }
+});
+
+// --- burger menu toggle ---
+const burgerMenu = document.getElementById('burger-menu');
+const nav = document.getElementById('nav');
+burgerMenu.addEventListener('click', () => {
+  nav.classList.toggle('open');
 });
 
 // --- slideshow ---
