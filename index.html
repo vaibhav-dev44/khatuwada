@@ -322,6 +322,13 @@ p.section-sub{
   background:#8b583b;
   transform:translateY(-2px);
 }
+#booking-message {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 18px;
+  color: var(--accent);
+  display: none;
+}
 footer{
   background:#1b100a;
   color:white;
@@ -489,7 +496,27 @@ footer a:hover{color:var(--accent);}
     </div>
     <div class="gallery-item">
       <img src="https://lh3.googleusercontent.com/gps-cs-s/AG0ilSzThcYP66LqTpjxmi91A6NA1tnkJOzPQawdQEiuIYJjULavUD0dO8aBX9du9NBJxaAbsKv2W95oNUiYJNcIb0T5nOoqZn_O2pCVma05qrnAOVZ02ieS7ioKZUWDpuCF360RYn21_w=w800-h600-k-no" alt="Swimming Pool">
-      <div class="gallery<section id="testimonials" class="testimonials">
+      <div class="gallery-overlay">
+        <p>Relaxing by the outdoor swimming pool.</p>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://lh3.googleusercontent.com/gps-cs-s/AG0ilSxF-9ErrYk4f4-a78xySZKZvZYTO5m6h52sDRZuQaxLz-Td9GE6g8vEOi5vwN3ekPyrQZTkLqpWCP32nwBzd5I-vksaeNFsc-Ej-Dbbu3cbbw-CVx90wYd5DPfss6felqalelfE=w800-h600-k-no" alt="Room Interior">
+      <div class="gallery-overlay">
+        <p>Luxurious room interiors with heritage touches.</p>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://lh3.googleusercontent.com/p/AF1QipMpsbvGl4JoxuOFEe6Rcd83O1T9XCQw3HsZezbH=w800-h600-k-no" alt="Dining Area">
+      <div class="gallery-overlay">
+        <p>Authentic Konkan dining experience.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section id="testimonials" class="testimonials">
   <h3 class="section-title">Guest Testimonials</h3>
   <p class="section-sub">What our guests say about their experience.</p>
   <div class="features">
@@ -526,6 +553,7 @@ footer a:hover{color:var(--accent);}
     <textarea name="message" rows="4" placeholder="Special requests / notes"></textarea>
     <button type="submit">Send Booking Request</button>
   </form>
+  <div id="booking-message">Thank you! Your booking request has been submitted. We will contact you shortly.</div>
 </section>
 
 <section id="contact">
@@ -538,7 +566,7 @@ footer a:hover{color:var(--accent);}
 
 <footer>
   © <span id="year"></span> Khatu Waada – The Heritage Home | Crafted with love in Konkan.<br>
-  <a href="https://www.booking.com/hotel/in/khatu-waada-the-heritage-home.html" target="_blank">View on Booking.com</a><br>
+  <a href="https://www.booking.com/hotel/in/khatu-waada-the-heritage-home.html" target="_blank"></a><br>
   Developed by V K Infotech
 </footer>
 
@@ -605,11 +633,32 @@ const runCounter = entry => {
 };
 new IntersectionObserver(entries => entries.forEach(runCounter)).observe(document.querySelector('.counter-section'));
 
-// --- booking form dummy handler ---
+// --- booking form handler with WhatsApp and confirmation ---
 function submitBooking(e) {
   e.preventDefault();
-  alert('Thank you for your booking request! Our team will contact you shortly.');
+  const formData = new FormData(e.target);
+  const name = formData.get('name');
+  const phone = formData.get('phone');
+  const email = formData.get('email') || 'Not provided';
+  const checkin = formData.get('checkin');
+  const checkout = formData.get('checkout');
+  const guests = formData.get('guests');
+  const message = formData.get('message') || 'No special requests';
+
+  const whatsappMessage = `New Booking Request from Khatu Waada Website:\n\nName: ${name}\nPhone: ${phone}\nEmail: ${email}\nCheck-in: ${checkin}\nCheck-out: ${checkout}\nGuests: ${guests}\nMessage: ${message}`;
+
+  const whatsappURL = `https://wa.me/919607031831?text=${encodeURIComponent(whatsappMessage)}`;
+  window.open(whatsappURL, '_blank');
+  
+  // Show confirmation message
+  const messageDiv = document.getElementById('booking-message');
+  messageDiv.style.display = 'block';
   e.target.reset();
+  
+  // Hide message after 5 seconds
+  setTimeout(() => {
+    messageDiv.style.display = 'none';
+  }, 5000);
 }
 
 // --- year ---
